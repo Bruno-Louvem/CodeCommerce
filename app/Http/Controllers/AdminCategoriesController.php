@@ -36,4 +36,15 @@ class AdminCategoriesController extends Controller {
         return view('categories_list',compact('categories'));
 	}
 
+    /**
+	 * Show the application dashboard to the user.
+	 *
+	 * @return Response
+	 */
+	public function show($id)
+	{
+        $category = Category::find($id);
+        return view('categories_show',compact('category'));
+	}
+
 }

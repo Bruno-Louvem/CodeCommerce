@@ -15,37 +15,45 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
-//Inicio rotas categorias
+Route::pattern('id','[0-9]');
 
-//Listagem de Categorias
-Route::get('admin/categories', 'AdminCategoriesController@index');
-//Form de cadastro
-Route::get('admin/categories/create', 'AdminCategoriesController@new');
-//Form de edição
-Route::get('admin/categories/edit', 'AdminCategoriesController@edit');
-//Action de cadastro
-Route::post('admin/categories','AdminCategoriesController@create');
-//Action de edição
-Route::put('admin/categories','AdminCategoriesController@update');
-//Action de deleção
-Route::delete('admin/categories','AdminCategoriesController@delete');
-//Fim rotas Categorias
+Route::group(['prefix'=>'admin'],function(){
+    //Rotas de categorias
+    Route::group(['prefix'=>'categories'],function(){
+        //Listagem de Categorias
+        Route::get('/', ['as'=>'admin_category_home','uses' => 'AdminCategoriesController@index']);
+        //Detalhe da Categoria
+        Route::get('/show/{id}', ['as'=>'admin_category_show','uses' => 'AdminCategoriesController@show']);
+        //Form de cadastro
+        Route::get('new', ['as'=>'admin_category_new','uses' => 'AdminCategoriesController@new']);
+        //Form de edição
+        Route::get('edit/{id}', ['as'=>'admin_category_edit','uses' => 'AdminCategoriesController@edit']);
+        //Action de cadastro
+        Route::post('/',['as'=>'admin_category_create','uses' => 'AdminCategoriesController@create']);
+        //Action de edição
+        Route::put('/',['as'=>'admin_category_update','uses' => 'AdminCategoriesController@update']);
+        //Action de deleção
+        Route::delete('/',['as'=>'admin_category_delete','uses' => 'AdminCategoriesController@delete']);
+    });
+    //Rotas de produtos
+    Route::group(['prefix'=>'products'],function(){
+        //Listagem de Produtos
+        Route::get('/', ['as'=>'admin_product_home','uses' => 'AdminProductsController@index']);
+        //Detalhe de Produtos
+        Route::get('/show/{id}', ['as'=>'admin_product_show','uses' => 'AdminProductsController@show']);
+        //Form de cadastro
+        Route::get('new', ['as'=>'admin_product_new','uses' => 'AdminProductsController@new']);
+        //Form de edição
+        Route::get('edit/{id}', ['as'=>'admin_product_edit','uses' => 'AdminProductsController@edit']);
+        //Action de cadastro
+        Route::post('/',['as'=>'admin_product_create','uses' => 'AdminProductsController@create']);
+        //Action de edição
+        Route::put('/',['as'=>'admin_product_update','uses' => 'AdminProductsController@update']);
+        //Action de deleção
+        Route::delete('/',['as'=>'admin_product_delete','uses' => 'AdminProductsController@delete']);
+    });
 
-//Inicio rotas Produtos
-
-//Listagem de Produtos
-Route::get('admin/products', 'AdminProductsController@index');
-//Form de cadastro
-Route::get('admin/products/create', 'AdminProductsController@new');
-//Form de edição
-Route::get('admin/products/edit', 'AdminProductsController@edit');
-//Action de cadastro
-Route::post('admin/products','AdminProductsController@create');
-//Action de edição
-Route::put('admin/products','AdminProductsController@update');
-//Action de deleção
-Route::delete('admin/products','AdminProductsController@delete');
-//Fim rotas Produtos
+});
 
 
 Route::controllers([
